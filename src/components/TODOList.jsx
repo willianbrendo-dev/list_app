@@ -1,3 +1,4 @@
+  "use client";
   function TODOList({ todos }) {
     return (
         <ol className="todo_list">

@@ -1,8 +1,13 @@
 'use client';
-function Form() {
+function Form({ setTodos, gerarIdAleatorio }) {
     const handleSubmit = (event) => {
       event.preventDefault();
       // reset the form
+      const value = event.target.todo.value;
+      setTodos((prevTodos) => [
+        ...prevTodos,
+        { title: value, id: gerarIdAleatorio(), is_completed: false },
+      ]);
       event.target.reset();
     };
     return (
