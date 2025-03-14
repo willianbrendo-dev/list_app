@@ -7,6 +7,10 @@ import Header from "@/components/Header";
 import TODOHero from "@/components/TODOHero";
 import TODOList from "@/components/TODOList";
 
+import dynamic from 'next/dynamic';
+
+const TODOListNoSSR = dynamic(() => import('@/components/TODOList'), { ssr: false });
+
 function gerarIdAleatorio() {
   let id = '';
   const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -17,22 +21,7 @@ function gerarIdAleatorio() {
 }
 
 function Home() {
-  const [todos, setTodos] = React.useState([
-    {
-      title: "Some task",  // string
-      id: gerarIdAleatorio(), // string
-      is_completed: false // boolean
-    },
-    {
-      title: "Some other task",  // string
-      id: gerarIdAleatorio(), // string
-      is_completed: true // boolean
-    },{
-      title: "last task",  // string
-      id: gerarIdAleatorio(), // string
-      is_completed: false // boolean
-    }
-  ]);
+  const [todos, setTodos] = React.useState([]);
   const todos_completed = todos.filter(
     (todo) => todo.is_completed === true
   ).length;
@@ -43,7 +32,7 @@ function Home() {
       <TODOHero todos_completed={todos_completed} total_todos={total_todos} />
       <Form setTodos={setTodos} gerarIdAleatorio={gerarIdAleatorio} />
 
-      <TODOList todos={todos} />
+      <TODOListNoSSR todos={todos} />
     </div>
   );
 }
