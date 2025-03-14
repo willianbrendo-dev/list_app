@@ -30,9 +30,9 @@ function Home() {
     <div className="wrapper">
       <Header />
       <TODOHero todos_completed={todos_completed} total_todos={total_todos} />
-      <Form setTodos={setTodos} gerarIdAleatorio={gerarIdAleatorio} />
+      <Form setTodos={setTodos} gerarIdAleatorio={gerarIdAleatorio}  />
 
-      <TODOListNoSSR todos={todos} />
+      <TODOListNoSSR todos={todos} setTodos={setTodos}/>
     </div>
   );
 }

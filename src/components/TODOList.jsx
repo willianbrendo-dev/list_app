@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-function TODOList({ todos, setTodos}) {
+function TODOList({ todos, setTodos }) {
   return (
     <ol className="todo_list">
       {todos && todos.length > 0 ? (
-        todos?.map((item, index) => <Item key={index} item={item} setTodos={setTodos} />)
+        todos?.map((item, index) => (
+          <Item key={index} item={item} setTodos={setTodos} />
+        ))
       ) : (
         <p>Seems lonely in here, what are you up to?</p>
       )}
@@ -15,6 +17,8 @@ function TODOList({ todos, setTodos}) {
 }
 
 function Item({ item, setTodos }) {
+  const [editing, setEditing] = React.useState(false);
+
   const completeTodo = () => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
@@ -24,12 +28,40 @@ function Item({ item, setTodos }) {
       )
     );
   };
+
+  const handleEdit = () => {
+    setEditing(true);
+  };
+  
+  React.useEffect(() => {
+    if (editing && inputRef.current) {
+      inputRef.current.focus();
+      // position the cursor at the end of the text
+      inputRef.current.setSelectionRange(
+        inputRef.current.value.length,
+        inputRef.current.value.length
+      );
+    }
+  }, [editing]);
+
+  const handleInpuSubmit = (event) => {
+    event.preventDefault();
+    setEditing(false);
+  };
+
+  const handleInputBlur = () => {
+    setEditing(false);
+  };
+
   return (
     <li id={item?.id} className="todo_item" onClick={completeTodo}>
       <button className="todo_items_left">
-        <svg>
+        <svg fill={item.is_completed ? "#22C55E" : "#0d0d0d"}>
           <circle cx="11.998" cy="11.998" fillRule="nonzero" r="9.998" />
         </svg>
+        <p style={item.is_completed ? { textDecoration: "line-through" } : {}}>
+          {item?.title}
+        </p>
         <p>{item?.title}</p>
       </button>
       <div className="todo_items_right">
